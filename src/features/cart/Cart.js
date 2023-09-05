@@ -1,7 +1,5 @@
 import React from "react";
-import { Fragment, useState } from "react";
-import { Dialog, Transition } from "@headlessui/react";
-import { XMarkIcon } from "@heroicons/react/24/outline";
+
 import { increment, incrementAsync, selectCount } from "./cartSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
@@ -33,9 +31,8 @@ const products = [
   },
   // More products...
 ];
-export default function Cart() {
-  const [open, setOpen] = useState(true);
 
+export default function Cart() {
   const count = useSelector(selectCount);
   const dispatch = useDispatch();
 
@@ -73,13 +70,12 @@ export default function Cart() {
                     <div className="flex flex-1 items-end justify-between text-sm">
                       <div className="text-gray-500">
                         <label className="inline text-sm mr-5 font-medium leading-6 text-gray-900">
-                            Qty
+                          Qty
                         </label>
-                        <select >
-                            <option value={''}>1</option>    
-                            <option value={''}>2</option>    
-                        </select> 
-                        
+                        <select>
+                          <option value={""}>1</option>
+                          <option value={""}>2</option>
+                        </select>
                       </div>
 
                       <div className="flex">
@@ -107,25 +103,23 @@ export default function Cart() {
             Shipping and taxes calculated at checkout.
           </p>
           <div className="mt-6">
-            <a
-              href="#"
+            <Link to={'/checkout'}
               className="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
             >
               Checkout
-            </a>
+            </Link>
           </div>
           <div className="mt-6 flex justify-center text-center text-sm text-gray-500">
             <p>
               or
-              <Link to={'/'}>
-              <button
-                type="button"
-                className="font-medium text-indigo-600 hover:text-indigo-500"
-                onClick={() => setOpen(false)}
-              >
-                Continue Shopping
-                <span aria-hidden="true"> &rarr;</span>
-              </button>
+              <Link to={"/"}>
+                <button
+                  type="button"
+                  className="font-medium text-indigo-600 hover:text-indigo-500"
+                >
+                  Continue Shopping
+                  <span aria-hidden="true"> &rarr;</span>
+                </button>
               </Link>
             </p>
           </div>
