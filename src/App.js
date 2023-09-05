@@ -1,16 +1,8 @@
-import logo from "./logo.svg";
 import "./App.css";
-
 import { Home } from "./pages/HomePage";
 import Login from "./pages/LoginPage";
 import SignUpPage from "./pages/SignUpPage";
-
-import {
-  createBrowserRouter,
-  RouterProvider,
-  Route,
-  Link,
-} from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import CartPage from "./pages/CartPage";
 import Checkout from "./pages/Checkout";
 import ProductDetailsPage from "./pages/ProductDetailsPage";
@@ -37,7 +29,7 @@ const router = createBrowserRouter([
     element: <Checkout />,
   },
   {
-    path: "/product-details",
+    path: "/details",
     element: <ProductDetailsPage />,
   },
 ]);
