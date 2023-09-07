@@ -1,6 +1,6 @@
 import React from "react";
 
-import { increment, incrementAsync, selectCount } from "./cartSlice";
+import { increment, incrementAsync, selectCartItems } from "./cartSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
@@ -33,7 +33,7 @@ const products = [
 ];
 
 export default function Cart() {
-  const count = useSelector(selectCount);
+  // const cartItems = useSelector(selectCartItems);
   const dispatch = useDispatch();
 
   return (

@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom';
 
 export default function Login(){
-    const count = useSelector(selectCount);
+    // const count = useSelector(selectCount);
     const dispatch = useDispatch();
 
     return (

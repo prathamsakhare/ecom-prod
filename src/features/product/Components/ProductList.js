@@ -1,6 +1,10 @@
 import React, { useEffect } from "react";
 
-import { fetchAllProductsAsync, selectAllProducts } from "../productListSlice";
+import {
+  fetchAllProductsAsync,
+  fetchProductsByFiltersAsync,
+  selectAllProducts,
+} from "../productListSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { Fragment, useState } from "react";
@@ -17,14 +21,24 @@ import {
 } from "@heroicons/react/20/solid";
 
 const sortOptions = [
-  { name: "Most Popular", href: "#", current: true },
   { name: "Best Rating", href: "#", current: false },
-  { name: "Newest", href: "#", current: false },
   { name: "Price: Low to High", href: "#", current: false },
   { name: "Price: High to Low", href: "#", current: false },
 ];
 
 const filters = [
+  {
+    id: "category",
+    name: "Category",
+    options: [
+      { value: "smartphones", label: "smartphones", checked: false },
+      { value: "laptops", label: "laptops", checked: false },
+      { value: "fragrances", label: "fragrances", checked: false },
+      { value: "skincare", label: "skincare", checked: false },
+      { value: "groceries", label: "groceries", checked: false },
+      { value: "home-decoration", label: "home decoration", checked: false },
+    ],
+  },
   {
     id: "brand",
     name: "Brand",
@@ -74,19 +88,6 @@ const filters = [
       { value: "Golden", label: "Golden", checked: false },
     ],
   },
-  {
-    id: "category",
-    name: "Category",
-    options: [
-      { value: "smartphones", label: "smartphones", checked: false },
-      { value: "laptops", label: "laptops", checked: false },
-      { value: "fragrances", label: "fragrances", checked: false },
-      { value: "skincare", label: "skincare", checked: false },
-      { value: "groceries", label: "groceries", checked: false },
-      { value: "home-decoration", label: "home decoration", checked: false },
-    ],
-  },
-  
 ];
 
 const oldProducts = [
@@ -158,11 +159,26 @@ function classNames(...classes) {
 export default function ProductList() {
   const products = useSelector(selectAllProducts);
   const dispatch = useDispatch();
+
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
+  const [filter, setFilter] = useState({});
+
+  const handleFilter = (e, section, option) => {
+    // ? filter = {"category" : "smartphone"}
+    console.log(e.target.checked);
+    const newFilter = { ...filter };
+    if (e.target.checked) {
+      newFilter[section.id] = option.value;
+    } else {
+      delete newFilter[section.id];
+    }
+    setFilter(newFilter);
+    console.log(section.id, option.value);
+  };
 
   useEffect(() => {
-    dispatch(fetchAllProductsAsync());
-  }, [dispatch]);
+    dispatch(fetchProductsByFiltersAsync(filter));
+  }, [dispatch, filter]);
 
   return (
     <div className="bg-white">
@@ -256,6 +272,9 @@ export default function ProductList() {
                                       defaultValue={option.value}
                                       type="checkbox"
                                       defaultChecked={option.checked}
+                                      onChange={(e) =>
+                                        handleFilter(e, section, option)
+                                      }
                                       className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
                                     />
                                     <label
@@ -398,6 +417,9 @@ export default function ProductList() {
                                   defaultValue={option.value}
                                   type="checkbox"
                                   defaultChecked={option.checked}
+                                  onChange={(e) =>
+                                    handleFilter(e, section, option)
+                                  }
                                   className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
                                 />
                                 <label

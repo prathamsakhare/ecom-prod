@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice, creatSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 import { fetchCount } from "./cartAPI";
 
@@ -37,6 +37,6 @@ export const cartSlice = createSlice({
 
 export const { increment } = cartSlice.actions;
 
-export const selectCount = (state) => state.counter.value;
+export const selectCartItems = (state) => state.cart.value;
 
 export default cartSlice.reducer;
