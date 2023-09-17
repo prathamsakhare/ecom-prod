@@ -162,23 +162,38 @@ export default function ProductList() {
 
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
   const [filter, setFilter] = useState({});
+  const [sort, setSort] = useState({});
 
   const handleFilter = (e, section, option) => {
-    // ? filter = {"category" : "smartphone"}
     console.log(e.target.checked);
     const newFilter = { ...filter };
+    // TODO : on server it will support multiple categories
     if (e.target.checked) {
-      newFilter[section.id] = option.value;
+      if (newFilter[section.id]) {
+        newFilter[section.id].push(option.value);
+      } else {
+        newFilter[section.id] = [option.value];
+      }
     } else {
-      delete newFilter[section.id];
+      const index = newFilter[section.id].findIndex(
+        (el) => el === option.value
+      );
+      newFilter[section.id].splice(index, 1);
     }
+    console.log({ newFilter });
+
     setFilter(newFilter);
-    console.log(section.id, option.value);
+  };
+
+  const handleSort = (e, option) => {
+    const sort = { _sort: option.sort, _order: option.order };
+    console.log({ sort });
+    setSort(sort);
   };
 
   useEffect(() => {
-    dispatch(fetchProductsByFiltersAsync(filter));
-  }, [dispatch, filter]);
+    dispatch(fetchProductsByFiltersAsync({ filter, sort }));
+  }, [dispatch, filter, sort]);
 
   return (
     <div className="bg-white">
@@ -330,7 +345,8 @@ export default function ProductList() {
                       {sortOptions.map((option) => (
                         <Menu.Item key={option.name}>
                           {({ active }) => (
-                            <a
+                            <p
+                              onClick={(e) => handleSort(e, option)}
                               href={option.href}
                               className={classNames(
                                 option.current
@@ -341,7 +357,7 @@ export default function ProductList() {
                               )}
                             >
                               {option.name}
-                            </a>
+                            </p>
                           )}
                         </Menu.Item>
                       ))}
@@ -444,7 +460,7 @@ export default function ProductList() {
                 <div className="mx-auto max-w-2xl px-4 py-0 sm:px-6 sm:py-0 lg:max-w-7xl lg:px-8">
                   <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-8">
                     {products.map((product) => (
-                      <Link to="/details" key={product.id}>
+                      <Link to={`details/${product.id}`} key={product.id}>
                         <div
                           key={product.id}
                           className="group relative border-solid border-2 p-2 border-gray-200"
