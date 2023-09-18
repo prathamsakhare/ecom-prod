@@ -1,6 +1,6 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-
+import { Navigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { createUserAsync, selectLoggedInUser } from "../authSlice";
@@ -11,15 +11,14 @@ export default function SignUp() {
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm();
+  console.log("errors", errors);
 
   const user = useSelector(selectLoggedInUser);
-  console.log("errors", errors);
   return (
     <>
-      {user?.email}
+      {user && <Navigate to='/' replace={true}></Navigate>}
 
       <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
@@ -39,7 +38,7 @@ export default function SignUp() {
             className="space-y-6"
             onSubmit={handleSubmit((data) =>
               dispatch(
-                createUserAsync({ email: data.email, password: data.password })
+                // createUserAsync({ email: data.email, password: data.password })
               )
             )}
           >

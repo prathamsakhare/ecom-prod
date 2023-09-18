@@ -1845,6 +1845,11 @@
       "email": "nikhilpatil12902@gmail.com",
       "password": "1234",
       "id": 1
+    },
+    {
+      "email": "nikhilpatil12902@gmail.com",
+      "password": "9876stark",
+      "id": 2
     }
   ]
 }
