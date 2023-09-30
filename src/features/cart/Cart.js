@@ -1,6 +1,6 @@
 import React from "react";
 
-import { increment, incrementAsync, selectCartItems } from "./cartSlice";
+import { selectCartItems } from "./cartSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
@@ -35,7 +35,9 @@ const products = [
 export default function Cart() {
   const dispatch = useDispatch();
   const items = useSelector(selectCartItems)
-  const totalAmount = items.reduce((amount, item) => amount + item.price, 0)
+  const totalAmount = items.reduce((amount, item) => amount + item.price*item.quantity, 0);
+  const totalItems = items.reduce((total, item) => total + item.quantity, 0);
+ 
 
   return (
     <>
@@ -96,9 +98,13 @@ export default function Cart() {
         </div>
 
         <div className="border-t border-gray-200 px-4 py-6 sm:px-6 mt-10">
-          <div className="flex justify-between text-base font-medium text-gray-900">
+          <div className="flex justify-between my-2 text-base font-medium text-gray-900">
             <p>Subtotal</p>
             <p>${totalAmount}</p>
+          </div>
+          <div className="flex justify-between my-2 text-base font-medium text-gray-900">
+            <p>Total Items in Cart</p>
+            <p> {totalItems} Items</p>
           </div>
           <p className="mt-0.5 text-sm text-gray-500">
             Shipping and taxes calculated at checkout.

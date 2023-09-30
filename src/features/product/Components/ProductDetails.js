@@ -7,6 +7,7 @@ import { useParams } from "react-router-dom";
 import { fetchProductByIdAsync } from "../productListSlice";
 import { addToCartAsync } from "../../cart/cartSlice";
 import { selectLoggedInUser } from "../../auth/authSlice";
+
 // TODO : In server data we will add colors, sizes, highlights, to each product
 
 const colors = [
@@ -29,8 +30,7 @@ const highlights = [
   'Dyed with our properties colors',
   'Pre-washed & pre-shrunk',
   'Ultra-soft 100% cotton'
-]
-
+];
 const product = {
   name: "Basic Tee 6-Pack",
   price: "$192",
@@ -80,7 +80,7 @@ export default function ProductDetails() {
   const product = useSelector(selectProduct);
   const user = useSelector(selectLoggedInUser)
   const dispatch = useDispatch();
-  const params = useParams()
+  const params = useParams();
   useEffect(() => {
     dispatch(fetchProductByIdAsync(params.id));
   }, [dispatch, params.id])
